@@ -31,8 +31,8 @@ bool rgbStatus = true;
 
 /*
 void matrix_scan_user(void) {
-    if(rgb_matrix_config.mode != RGB_MATRIX_CUSTOM_layer1 && rgb_matrix_config.mode != RGB_MATRIX_CUSTOM_layer2 && rgb_matrix_config.mode != RGB_MATRIX_CUSTOM_layer3 && rgb_matrix_config.mode != RGB_MATRIX_CUSTOM_layer15){
-        rgbmode = rgb_matrix_config.mode;
+    if(rgb_matrix_get_mode() != RGB_MATRIX_CUSTOM_layer1 && rgb_matrix_get_mode() != RGB_MATRIX_CUSTOM_layer2 && rgb_matrix_get_mode() != RGB_MATRIX_CUSTOM_layer3 && rgb_matrix_get_mode() != RGB_MATRIX_CUSTOM_layer15){
+        rgbmode = rgb_matrix_get_mode();
     }
 }
 */
@@ -41,7 +41,7 @@ void matrix_scan_user(void) {
 void setLayerRGB(int n) {
     switch (n) {
     case 1:
-        if(!rgbmode) rgbmode = rgb_matrix_config.mode;
+        if(!rgbmode) rgbmode = rgb_matrix_get_mode();
         rgb_matrix_mode_noeeprom(RGB_MATRIX_CUSTOM_layer1);
     break;
     case 2:
@@ -60,7 +60,7 @@ void setLayerRGB(int n) {
 };
 
 layer_state_t layer_state_set_user(layer_state_t state) {
-    uint8_t layer = biton32(state);
+    uint8_t layer = get_highest_layer(state);
     switch (layer) {
     case _LAYER1:
         setLayerRGB(1);
